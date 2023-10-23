@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -11,12 +12,12 @@ import grafo.Vertice;
 
 public class CDMSolver<T> {
 	private Grafo<T> grafo;
-	private Set<Vertice<T>> conjuntoDominante;
+	private Set<Vertice<T>> cdm;
 
 	public CDMSolver(Grafo<T> grafo) {
 		this.grafo = grafo;
 
-		conjuntoDominante = new HashSet<Vertice<T>>();
+		cdm = new HashSet<Vertice<T>>();
 	}
 
 	public List<Vertice<T>> obtenerVerticesOrdenados() {
@@ -37,7 +38,29 @@ public class CDMSolver<T> {
 				return cantidadDeVecinosDeA - cantidadDeVecinosDeB;
 			}
 		});
-		
+
 		Collections.reverse(vertices);
+	}
+
+	public boolean esCDM() {
+		List<Vertice<T>> verticesDelGrafo = grafo.obtenerVertices();
+
+		Set<Vertice<T>> vecinosDeCDM = new HashSet<Vertice<T>>();
+
+		for (Vertice<T> verticeActual : cdm) {
+			vecinosDeCDM.add(verticeActual);
+
+			List<Vertice<T>> vecinosDeVerticeActual = grafo.obtenerVecinos(verticeActual);
+
+			vecinosDeCDM.addAll(vecinosDeVerticeActual);
+		}
+
+		boolean esCDM = vecinosDeCDM.containsAll(verticesDelGrafo);
+
+		return esCDM;
+	}
+
+	public void setCDM(Set<Vertice<T>> cdm) {
+		this.cdm = cdm;
 	}
 }
