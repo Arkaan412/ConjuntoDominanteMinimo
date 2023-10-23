@@ -1,7 +1,6 @@
 package modelo;
 
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -10,13 +9,14 @@ import java.util.List;
 import grafo.Grafo;
 import grafo.Vertice;
 
-public class ConjuntoDominante<T> {
+public class CDMSolver<T> {
 	private Grafo<T> grafo;
-	private Set<Vertice<T>> conjuntoDominanteMinimo;
+	private Set<Vertice<T>> conjuntoDominante;
 
-	public ConjuntoDominante(Grafo<T> grafo) {
+	public CDMSolver(Grafo<T> grafo) {
 		this.grafo = grafo;
-		conjuntoDominanteMinimo = new HashSet<Vertice<T>>();
+
+		conjuntoDominante = new HashSet<Vertice<T>>();
 	}
 
 	public List<Vertice<T>> obtenerVerticesOrdenados() {

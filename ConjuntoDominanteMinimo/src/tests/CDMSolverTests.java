@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import grafo.Grafo;
 import grafo.Vertice;
-import modelo.ConjuntoDominante;
+import modelo.CDMSolver;
 
-class ConjuntoDominanteTests {
+class CDMSolverTests {
 	static Grafo<Integer> grafo;
 
 	static Vertice<Integer> vertice0;
@@ -26,7 +26,7 @@ class ConjuntoDominanteTests {
 
 	static ArrayList<Vertice<Integer>> vertices;
 
-	static ConjuntoDominante<Integer> conjuntoDominante;
+	static CDMSolver<Integer> cDMSolver;
 
 	@BeforeAll
 	static void setUpBeforeClass() {
@@ -40,7 +40,7 @@ class ConjuntoDominanteTests {
 		vertice5 = new Vertice<>();
 		vertice6 = new Vertice<>();
 
-		conjuntoDominante = new ConjuntoDominante<>(grafo);
+		cDMSolver = new CDMSolver<>(grafo);
 	}
 
 	@AfterEach
@@ -53,7 +53,7 @@ class ConjuntoDominanteTests {
 		grafo.eliminarVertice(vertice5);
 		grafo.eliminarVertice(vertice6);
 
-		conjuntoDominante = new ConjuntoDominante<>(grafo);
+		cDMSolver = new CDMSolver<>(grafo);
 	}
 
 	@Test
@@ -67,7 +67,7 @@ class ConjuntoDominanteTests {
 		grafo.agregarArista(vertice0, vertice2);
 		grafo.agregarArista(vertice1, vertice2);
 
-		List<Vertice<Integer>> verticesObtenidos = conjuntoDominante.obtenerVerticesOrdenados();
+		List<Vertice<Integer>> verticesObtenidos = cDMSolver.obtenerVerticesOrdenados();
 		
 		boolean estaOrdenada = estaOrdenadaDeMayorAMenor(verticesObtenidos);
 
