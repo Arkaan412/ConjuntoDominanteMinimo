@@ -11,7 +11,6 @@ import modelo.VerticeConNombre;
 
 public class Controlador {
 	ConstructorDeGrafo constructorDeGrafo;
-//	ConjuntoDominanteSolver<String> CDMSolver;
 
 	public Controlador(ConstructorDeGrafo constructorDeGrafo) {
 		this.constructorDeGrafo = constructorDeGrafo;

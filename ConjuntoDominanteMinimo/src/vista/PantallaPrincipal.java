@@ -94,9 +94,19 @@ public class PantallaPrincipal {
 			}
 		});
 
-		btnAgregarVertice.setBounds(10, 232, 242, 82);
+		btnAgregarVertice.setBounds(10, 232, 140, 82);
 		panelVertices.add(btnAgregarVertice);
 
+		JButton btnEliminarVertice = new JButton("Eliminar vértice");
+		btnEliminarVertice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eliminarVertice();
+			}
+		});
+
+		btnEliminarVertice.setBounds(162, 232, 140, 82);
+		panelVertices.add(btnEliminarVertice);
+		
 		JButton btnVecinos = new JButton("Agregar/eliminar vecinos");
 		btnVecinos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -104,7 +114,7 @@ public class PantallaPrincipal {
 			}
 		});
 
-		btnVecinos.setBounds(262, 232, 239, 82);
+		btnVecinos.setBounds(314, 232, 187, 82);
 		panelVertices.add(btnVecinos);
 
 		JButton btnGenerar = new JButton("Generar conjunto dominante mínimo");
@@ -128,43 +138,11 @@ public class PantallaPrincipal {
 		panelCDM.add(scrollPaneListCDM);
 	}
 
-	private void generarConjuntoDominanteMinimo() {
-		listModelCDM.clear();
-
-		if (hayVertices()) {
-			Set<VerticeConNombre> conjuntoDominanteMinimo = obtenerConjuntoDominanteMinimo();
-
-			for (VerticeConNombre verticeConNombre : conjuntoDominanteMinimo) {
-				listModelCDM.addElement(verticeConNombre);
-			}
-
-			tabbedPane.setSelectedIndex(1);
-		} else {
-			JOptionPane.showMessageDialog(frame, "Primero agregá, por lo menos, un vértice.");
-		}
-	}
-
-	private boolean hayVertices() {
-		boolean hayVertices = obtenerVertices().size() > 0;
-
-		return hayVertices;
-	}
-
-	private Set<VerticeConNombre> obtenerConjuntoDominanteMinimo() {
-		Set<VerticeConNombre> conjuntoDominanteMinimo = new HashSet<>();
-
-		for (Vertice<String> verticeActual : controlador.obtenerConjuntoDominanteMinimo()) {
-			conjuntoDominanteMinimo.add((VerticeConNombre) verticeActual);
-		}
-
-		return conjuntoDominanteMinimo;
-	}
-
 	private void agregarVertice() {
 		String nombreVertice = recibirNombreDeVertice();
-
+	
 		boolean nombreDeVerticeValido = validarNombreDeVertice(nombreVertice);
-
+	
 		if (nombreDeVerticeValido) {
 			VerticeConNombre vertice = crearVertice(nombreVertice);
 			agregarVerticeALista(vertice);
@@ -173,32 +151,45 @@ public class PantallaPrincipal {
 
 	private String recibirNombreDeVertice() {
 		String nombreVertice = JOptionPane.showInputDialog(tabbedPane, "Ingresá el nombre del vértice:");
-
+	
 		return nombreVertice;
 	}
 
 	private boolean validarNombreDeVertice(String nombreVertice) {
 		boolean nombreDeVerticeEsValido = nombreDeVerticeEsValido(nombreVertice) && !nombreVerticeExiste(nombreVertice);
-
+	
 		return nombreDeVerticeEsValido;
 	}
 
 	private boolean nombreDeVerticeEsValido(String nombreVertice) {
 		if (nombreVertice == null)
 			return false;
-
+	
 		Pattern pattern = Pattern.compile("\\S"); // Existe por lo menos un non-whitespace character.
 		Matcher matcher = pattern.matcher(nombreVertice);
-
+	
 		boolean verticeValido = !nombreVertice.isEmpty() && matcher.find();
-
+	
 		if (!verticeValido) {
 			JOptionPane.showMessageDialog(frame, "Nombre inválido. El nombre no puede estar en blanco.");
-
+	
 			return false;
 		}
-
+	
 		return true;
+	}
+
+	private void eliminarVertice() {
+		VerticeConNombre verticeSeleccionado = obtenerVerticeSeleccionado();
+
+		if (verticeSeleccionado != null) {
+			listModelVertices.removeElement(verticeSeleccionado);
+			controlador.eliminarVertice(verticeSeleccionado);
+			
+		} else {
+			JOptionPane.showMessageDialog(frame, "Primero seleccioná un vértice.");
+		}
+		
 	}
 
 	private boolean nombreVerticeExiste(String nombreVertice) {
@@ -214,20 +205,20 @@ public class PantallaPrincipal {
 		return false;
 	}
 
-	private List<VerticeConNombre> obtenerVertices() {
-		return controlador.obtenerVertices();
+	private void agregarVerticeALista(VerticeConNombre vertice) {
+		listModelVertices.addElement(vertice);
 	}
 
 	private VerticeConNombre crearVertice(String nombreVertice) {
 		VerticeConNombre vertice = new VerticeConNombre(nombreVertice);
-
+	
 		controlador.agregarVertice(vertice);
-
+	
 		return vertice;
 	}
 
-	private void agregarVerticeALista(VerticeConNombre vertice) {
-		listModelVertices.addElement(vertice);
+	private List<VerticeConNombre> obtenerVertices() {
+		return controlador.obtenerVertices();
 	}
 
 	private void modificarVecinos() {
@@ -243,13 +234,44 @@ public class PantallaPrincipal {
 		} else {
 			JOptionPane.showMessageDialog(frame, "Primero seleccioná un vértice.");
 		}
-
 	}
 
 	private VerticeConNombre obtenerVerticeSeleccionado() {
 		VerticeConNombre verticeSeleccionado = listVertices.getSelectedValue();
 
 		return verticeSeleccionado;
+	}
+
+	private Set<VerticeConNombre> obtenerConjuntoDominanteMinimo() {
+		Set<VerticeConNombre> conjuntoDominanteMinimo = new HashSet<>();
+	
+		for (Vertice<String> verticeActual : controlador.obtenerConjuntoDominanteMinimo()) {
+			conjuntoDominanteMinimo.add((VerticeConNombre) verticeActual);
+		}
+	
+		return conjuntoDominanteMinimo;
+	}
+
+	private void generarConjuntoDominanteMinimo() {
+		listModelCDM.clear();
+	
+		if (hayVertices()) {
+			Set<VerticeConNombre> conjuntoDominanteMinimo = obtenerConjuntoDominanteMinimo();
+	
+			for (VerticeConNombre verticeConNombre : conjuntoDominanteMinimo) {
+				listModelCDM.addElement(verticeConNombre);
+			}
+	
+			tabbedPane.setSelectedIndex(1);
+		} else {
+			JOptionPane.showMessageDialog(frame, "Primero agregá, por lo menos, un vértice.");
+		}
+	}
+
+	private boolean hayVertices() {
+		boolean hayVertices = obtenerVertices().size() > 0;
+	
+		return hayVertices;
 	}
 
 	public void mostrar() {
