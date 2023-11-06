@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -56,41 +55,6 @@ class ConjuntoDominanteSolverTests {
 		grafo.eliminarVertice(vertice6);
 
 		cdSolver = new ConjuntoDominanteSolver<>(grafo);
-	}
-
-	@Test
-	void ordenarVerticesTest() {
-		grafo.agregarVertice(vertice0);
-		grafo.agregarVertice(vertice1);
-		grafo.agregarVertice(vertice2);
-		grafo.agregarVertice(vertice3);
-
-		grafo.agregarArista(vertice0, vertice1);
-		grafo.agregarArista(vertice0, vertice2);
-		grafo.agregarArista(vertice1, vertice2);
-
-		List<Vertice<Integer>> verticesObtenidos = cdSolver.obtenerVerticesOrdenados();
-
-		boolean estaOrdenada = estaOrdenadaDeMayorAMenor(verticesObtenidos);
-
-		assertTrue(estaOrdenada);
-	}
-
-	public static <T> boolean estaOrdenadaDeMayorAMenor(List<Vertice<Integer>> lista) {
-		if (lista == null)
-			return false;
-
-		for (int i = 0; i < lista.size() - 1; i++) {
-			int j = i + 1;
-
-			int cantidadDeVecinosDeI = grafo.obtenerCantidadVecinos(lista.get(i));
-			int cantidadDeVecinosDeJ = grafo.obtenerCantidadVecinos(lista.get(j));
-
-			if (cantidadDeVecinosDeI < cantidadDeVecinosDeJ) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	@Test

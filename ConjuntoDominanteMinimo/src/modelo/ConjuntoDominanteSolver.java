@@ -1,7 +1,6 @@
 package modelo;
 
 import java.util.Set;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -12,7 +11,7 @@ import grafo.Vertice;
 
 public class ConjuntoDominanteSolver<T> {
 	private Grafo<T> grafo;
-	private Set<Vertice<T>> conjuntoDominante; // conjuntoDominante = Conjunto Dominante Mínimo
+	private Set<Vertice<T>> conjuntoDominante;
 
 	public ConjuntoDominanteSolver(Grafo<T> grafo) {
 		this.grafo = grafo;
@@ -20,20 +19,18 @@ public class ConjuntoDominanteSolver<T> {
 		conjuntoDominante = new HashSet<Vertice<T>>();
 	}
 
-	public Set<Vertice<T>> obtenerConjuntoDominanteMinimo(){
+	public Set<Vertice<T>> obtenerConjuntoDominanteMinimo() {
 		List<Vertice<T>> vertices = obtenerVerticesOrdenados();
-		
-		conjuntoDominante.add(vertices.get(0));
-		
-		while(!esConjuntoDominante(grafo, conjuntoDominante)) {
-			vertices.remove(0);
+
+		while (!esConjuntoDominante(grafo, conjuntoDominante)) {
 			conjuntoDominante.add(vertices.get(0));
+			vertices.remove(0);
 		}
-		
+
 		return conjuntoDominante;
 	}
-	
-	public List<Vertice<T>> obtenerVerticesOrdenados() {
+
+	private List<Vertice<T>> obtenerVerticesOrdenados() {
 		List<Vertice<T>> vertices = grafo.obtenerVertices();
 
 		ordenarVertices(vertices);
@@ -56,6 +53,9 @@ public class ConjuntoDominanteSolver<T> {
 	}
 
 	public static <T> boolean esConjuntoDominante(Grafo<T> grafo, Set<Vertice<T>> conjuntoDominante) {
+		if (conjuntoDominante.isEmpty())
+			return false;
+
 		List<Vertice<T>> verticesDelGrafo = grafo.obtenerVertices();
 
 		Set<Vertice<T>> vecinosDeConjuntoDominante = new HashSet<Vertice<T>>();
