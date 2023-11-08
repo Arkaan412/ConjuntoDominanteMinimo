@@ -9,8 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import grafo.Grafo;
-import grafo.Vertice;
 import modelo.ConstructorDeGrafo;
 import modelo.VerticeConNombre;
 
@@ -44,7 +42,7 @@ class ConstructorDeGrafoTests {
 	}
 
 	@Test
-	void obtenerVerticesDisponiblesParaVerticeQueNoPerteneceAlGrafoTest() {		
+	void obtenerVerticesDisponiblesParaVerticeQueNoPerteneceAlGrafoTest() {
 		assertThrows(IllegalArgumentException.class, () -> constructorDeGrafo.obtenerVerticesDisponibles(vertice0));
 	}
 
@@ -54,17 +52,17 @@ class ConstructorDeGrafoTests {
 		constructorDeGrafo.agregarVertice(vertice1);
 		constructorDeGrafo.agregarVertice(vertice2);
 		constructorDeGrafo.agregarVertice(vertice3);
-	
+
 		constructorDeGrafo.agregarArista(vertice0, vertice1);
 		constructorDeGrafo.agregarArista(vertice0, vertice2);
-	
+
 		List<VerticeConNombre> verticesEsperados = new ArrayList<>();
 		verticesEsperados.add(vertice3);
-		
+
 		List<VerticeConNombre> verticesObtenidos = constructorDeGrafo.obtenerVerticesDisponibles(vertice0);
-		
+
 		boolean sonIguales = Asserts.compararColecciones(verticesEsperados, verticesObtenidos);
-		
+
 		assertTrue(sonIguales);
 	}
 
@@ -74,32 +72,32 @@ class ConstructorDeGrafoTests {
 		constructorDeGrafo.agregarVertice(vertice1);
 		constructorDeGrafo.agregarVertice(vertice2);
 		constructorDeGrafo.agregarVertice(vertice3);
-		
+
 		List<VerticeConNombre> verticesEsperados = new ArrayList<>();
 		verticesEsperados.add(vertice1);
 		verticesEsperados.add(vertice2);
 		verticesEsperados.add(vertice3);
-		
+
 		List<VerticeConNombre> verticesObtenidos = constructorDeGrafo.obtenerVerticesDisponibles(vertice0);
-		
+
 		boolean sonIguales = Asserts.compararColecciones(verticesEsperados, verticesObtenidos);
-		
+
 		assertTrue(sonIguales);
 	}
-	
+
 	@Test
 	void obtenerVerticesDisponiblesParaVerticeUniversalTest() {
 		constructorDeGrafo.agregarVertice(vertice0);
 		constructorDeGrafo.agregarVertice(vertice1);
 		constructorDeGrafo.agregarVertice(vertice2);
 		constructorDeGrafo.agregarVertice(vertice3);
-		
+
 		constructorDeGrafo.agregarArista(vertice0, vertice1);
 		constructorDeGrafo.agregarArista(vertice0, vertice2);
 		constructorDeGrafo.agregarArista(vertice0, vertice3);
-		
+
 		List<VerticeConNombre> verticesObtenidos = constructorDeGrafo.obtenerVerticesDisponibles(vertice0);
-	
+
 		assertTrue(verticesObtenidos.isEmpty());
 	}
 

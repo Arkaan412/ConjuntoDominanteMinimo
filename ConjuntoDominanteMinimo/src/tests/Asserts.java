@@ -2,7 +2,6 @@ package tests;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class Asserts {
 	public static <T> boolean compararColecciones(Collection<T> coleccionA, Collection<T> coleccionB) {

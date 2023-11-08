@@ -35,10 +35,10 @@ public class PantallaGestionDeVecinos extends JDialog {
 	private VerticeConNombre verticeEnGestion;
 
 	public PantallaGestionDeVecinos(Controlador controlador, VerticeConNombre verticeEnGestion) {
-		setTitle("Gestionar vecinos");
-		
 		this.controlador = controlador;
 		this.verticeEnGestion = verticeEnGestion;
+		
+		setTitle("Gestionar vecinos de " + this.verticeEnGestion);		
 
 		setBounds(100, 100, 500, 400);
 		getContentPane().setLayout(new BorderLayout());
